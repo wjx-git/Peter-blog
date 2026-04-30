@@ -22,7 +22,7 @@ const maxCount = Math.max(...tags.map(t => t.count), 1);
     const size = 0.85 + (tag.count / maxCount) * 0.5;
     return (
       <a
-        href={`/history-blog/tags/${encodeURIComponent(tag.name)}`}
+        href={`/Peter-blog/tags/${encodeURIComponent(tag.name)}`}
         class="tag-cloud-item"
         style={`font-size: ${size}rem`}
       >

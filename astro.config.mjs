@@ -4,7 +4,7 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://yourusername.github.io',
-  base: '/history-blog',
+  base: '/Peter-blog',
   output: 'static',
   integrations: [],
   markdown: {

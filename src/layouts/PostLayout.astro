@@ -25,7 +25,7 @@ function formatDate(date: Date) {
       <div class="container">
         <div class="content-narrow">
           {series && (
-            <a href={`/history-blog/series#${series}`} class="series-link">
+            <a href={`/Peter-blog/series#${series}`} class="series-link">
               专题：{series}
             </a>
           )}
@@ -41,7 +41,7 @@ function formatDate(date: Date) {
           {tags.length > 0 && (
             <div class="post-tags">
               {tags.map(tag => (
-                <a href={`/history-blog/tags/${encodeURIComponent(tag)}`} class="tag">{tag}</a>
+                <a href={`/Peter-blog/tags/${encodeURIComponent(tag)}`} class="tag">{tag}</a>
               ))}
             </div>
           )}
@@ -63,12 +63,12 @@ function formatDate(date: Date) {
         <footer class="post-footer">
           <div class="post-tags-bottom">
             {tags.map(tag => (
-              <a href={`/history-blog/tags/${encodeURIComponent(tag)}`} class="tag">{tag}</a>
+              <a href={`/Peter-blog/tags/${encodeURIComponent(tag)}`} class="tag">{tag}</a>
             ))}
           </div>
           <hr />
           <div class="post-nav">
-            <a href="/history-blog/" class="back-home">← 返回首页</a>
+            <a href="/Peter-blog/" class="back-home">← 返回首页</a>
           </div>
         </footer>
       </div>

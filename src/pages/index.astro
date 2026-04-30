@@ -60,7 +60,7 @@ const seriesList = Object.entries(seriesMap)
       </div>
       {regularPosts.length > 6 && (
         <div class="view-more">
-          <a href="/history-blog/tags" class="btn">浏览全部文章</a>
+          <a href="/Peter-blog/tags" class="btn">浏览全部文章</a>
         </div>
       )}
     </div>
@@ -72,7 +72,7 @@ const seriesList = Object.entries(seriesMap)
         <h2 class="section-title">专题系列</h2>
         <div class="series-grid">
           {seriesList.slice(0, 3).map(({ name, posts }) => (
-            <a href={`/history-blog/series#${name}`} class="series-card">
+            <a href={`/Peter-blog/series#${name}`} class="series-card">
               <h3 class="series-name">{name}</h3>
               <p class="series-count">{posts.length} 篇文章</p>
             </a>
