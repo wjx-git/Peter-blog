@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="页面未找到">
+  <div class="container">
+    <div class="not-found">
+      <h1 class="error-code">404</h1>
+      <p class="error-message">此页已随历史长河逝去</p>
+      <a href="/history-blog/" class="btn">返回首页</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    text-align: center;
+    padding: 8rem 0;
+  }
+
+  .error-code {
+    font-family: var(--font-serif);
+    font-size: 6rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    opacity: 0.3;
+    margin-bottom: 1rem;
+  }
+
+  .error-message {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.7rem 2rem;
+    border: 1.5px solid var(--color-accent);
+    color: var(--color-accent);
+    border-radius: 100px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  .btn:hover {
+    background-color: var(--color-accent);
+    color: #fff;
+    text-decoration: none;
+  }
+</style>

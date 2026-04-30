@@ -1,0 +1,230 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import TagCloud from '../components/TagCloud.astro';
+
+const posts = await getCollection('posts', ({ data }) => !data.draft);
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const featuredPosts = sortedPosts.filter(p => p.data.featured);
+const regularPosts = sortedPosts.filter(p => !p.data.featured);
+
+// Group posts by series
+const seriesMap: Record<string, typeof posts> = {};
+sortedPosts.forEach(post => {
+  if (post.data.series) {
+    if (!seriesMap[post.data.series]) seriesMap[post.data.series] = [];
+    seriesMap[post.data.series].push(post);
+  }
+});
+
+const seriesList = Object.entries(seriesMap)
+  .filter(([_, posts]) => posts.length >= 2)
+  .map(([name, posts]) => ({
+    name,
+    posts: posts.sort((a, b) => (a.data.seriesOrder || 0) - (b.data.seriesOrder || 0)),
+  }));
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">溯光集</h1>
+        <p class="hero-subtitle">在历史的长河中，打捞那些被遗忘的细节</p>
+      </div>
+    </div>
+  </section>
+
+  {featuredPosts.length > 0 && (
+    <section class="featured">
+      <div class="container">
+        <h2 class="section-title">精选文章</h2>
+        <div class="post-grid featured-grid">
+          {featuredPosts.map(post => (
+            <PostCard post={post} featured={true} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="latest">
+    <div class="container">
+      <h2 class="section-title">最新文章</h2>
+      <div class="post-grid">
+        {regularPosts.slice(0, 6).map(post => (
+          <PostCard post={post} />
+        ))}
+      </div>
+      {regularPosts.length > 6 && (
+        <div class="view-more">
+          <a href="/history-blog/tags" class="btn">浏览全部文章</a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  {seriesList.length > 0 && (
+    <section class="series">
+      <div class="container">
+        <h2 class="section-title">专题系列</h2>
+        <div class="series-grid">
+          {seriesList.slice(0, 3).map(({ name, posts }) => (
+            <a href={`/history-blog/series#${name}`} class="series-card">
+              <h3 class="series-name">{name}</h3>
+              <p class="series-count">{posts.length} 篇文章</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="tags">
+    <div class="container">
+      <h2 class="section-title">标签</h2>
+      <TagCloud />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding: 5rem 0 4rem;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-subtitle {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-serif);
+  }
+
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-border);
+    display: inline-block;
+  }
+
+  .featured {
+    padding: 2rem 0;
+  }
+
+  .latest {
+    padding: 2rem 0;
+  }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.8rem;
+  }
+
+  .featured-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .view-more {
+    text-align: center;
+    margin-top: 2.5rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.7rem 2rem;
+    border: 1.5px solid var(--color-accent);
+    color: var(--color-accent);
+    border-radius: 100px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  .btn:hover {
+    background-color: var(--color-accent);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .series {
+    padding: 2rem 0;
+  }
+
+  .series-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .series-card {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    padding: 1.8rem;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid var(--color-border);
+  }
+
+  .series-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .series-name {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    color: var(--color-text);
+  }
+
+  .series-count {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .tags {
+    padding: 2rem 0 4rem;
+  }
+
+  @media (max-width: 1024px) {
+    .post-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .series-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 3rem 0 2rem;
+    }
+    .hero-title {
+      font-size: 2.2rem;
+    }
+    .post-grid,
+    .featured-grid,
+    .series-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

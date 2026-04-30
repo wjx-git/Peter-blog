@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  const tagSet = new Set<string>();
+  posts.forEach(post => post.data.tags.forEach(tag => tagSet.add(tag)));
+
+  return Array.from(tagSet).map(tag => {
+    const taggedPosts = posts.filter(post => post.data.tags.includes(tag));
+    return {
+      params: { tag },
+      props: { posts: taggedPosts, tag },
+    };
+  });
+}
+
+const { tag, posts } = Astro.props;
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title={`标签：${tag}`}>
+  <div class="container">
+    <div class="tag-page">
+      <h1 class="page-title">#{tag}</h1>
+      <p class="post-count">共 {posts.length} 篇文章</p>
+
+      <div class="post-grid">
+        {sortedPosts.map(post => (
+          <PostCard post={post} />
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .tag-page {
+    padding: 2rem 0 4rem;
+  }
+
+  .page-title {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    text-align: center;
+  }
+
+  .post-count {
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.8rem;
+  }
+
+  @media (max-width: 1024px) {
+    .post-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .post-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

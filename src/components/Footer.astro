@@ -1,0 +1,80 @@
+---
+import { SITE_AUTHOR, SITE_TITLE } from '../consts';
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <span class="footer-logo">{SITE_TITLE}</span>
+        <p class="footer-desc">聚焦中国历史，记录时光中的细节</p>
+      </div>
+      <div class="footer-links">
+        <a href="/history-blog/">首页</a>
+        <a href="/history-blog/tags">标签</a>
+        <a href="/history-blog/series">专题</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© {new Date().getFullYear()} {SITE_AUTHOR} · 使用 Astro 构建</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    padding: 3rem 0 2rem;
+    margin-top: 2rem;
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+  }
+
+  .footer-logo {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .footer-desc {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin-top: 0.3rem;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+
+  .footer-links a:hover {
+    color: var(--color-accent);
+  }
+
+  .footer-bottom {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border-light);
+    padding-top: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  }
+</style>

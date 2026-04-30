@@ -1,0 +1,154 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+const { title, description, pubDate, heroImage, tags, series } = post.data;
+
+function formatDate(date: Date) {
+  return new Date(date).toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+---
+
+<article class={`post-card ${featured ? 'featured' : ''}`}>
+  <a href={`/history-blog/posts/${post.slug}/`} class="card-link">
+    {heroImage && (
+      <div class="card-image">
+        <img src={heroImage} alt={title} loading="lazy" />
+      </div>
+    )}
+    <div class="card-content">
+      {series && <span class="card-series">{series}</span>}
+      <h3 class="card-title">{title}</h3>
+      <p class="card-description">{description}</p>
+      <div class="card-meta">
+        <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+        {tags.length > 0 && (
+          <span class="card-tags">
+            {tags.slice(0, 3).map(tag => `#${tag}`).join(' ')}
+          </span>
+        )}
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  .post-card {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .card-link:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .card-image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .post-card:hover .card-image img {
+    transform: scale(1.03);
+  }
+
+  .card-content {
+    padding: 1.2rem 1.4rem;
+  }
+
+  .card-series {
+    font-size: 0.75rem;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+
+  .card-title {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .card-description {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .card-tags {
+    font-size: 0.75rem;
+  }
+
+  .post-card.featured {
+    grid-column: span 2;
+  }
+
+  .post-card.featured .card-image {
+    aspect-ratio: 21 / 9;
+  }
+
+  .post-card.featured .card-title {
+    font-size: 1.4rem;
+  }
+
+  @media (max-width: 768px) {
+    .post-card.featured {
+      grid-column: span 1;
+    }
+    .post-card.featured .card-image {
+      aspect-ratio: 16 / 10;
+    }
+    .post-card.featured .card-title {
+      font-size: 1.15rem;
+    }
+  }
+</style>

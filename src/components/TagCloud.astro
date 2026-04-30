@@ -1,0 +1,65 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts', ({ data }) => !data.draft);
+
+const tagCounts: Record<string, number> = {};
+posts.forEach(post => {
+  post.data.tags.forEach(tag => {
+    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+  });
+});
+
+const tags = Object.entries(tagCounts)
+  .sort((a, b) => b[1] - a[1])
+  .map(([name, count]) => ({ name, count }));
+
+const maxCount = Math.max(...tags.map(t => t.count), 1);
+---
+
+<div class="tag-cloud">
+  {tags.map(tag => {
+    const size = 0.85 + (tag.count / maxCount) * 0.5;
+    return (
+      <a
+        href={`/history-blog/tags/${encodeURIComponent(tag.name)}`}
+        class="tag-cloud-item"
+        style={`font-size: ${size}rem`}
+      >
+        {tag.name}
+        <span class="tag-count">{tag.count}</span>
+      </a>
+    );
+  })}
+</div>
+
+<style>
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+    justify-content: center;
+    padding: 1rem 0;
+  }
+
+  .tag-cloud-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-family: var(--font-serif);
+  }
+
+  .tag-cloud-item:hover {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .tag-count {
+    font-size: 0.7em;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+  }
+</style>
