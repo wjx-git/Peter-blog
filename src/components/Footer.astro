@@ -16,10 +16,21 @@ import { SITE_AUTHOR, SITE_TITLE } from '../consts';
       </div>
     </div>
     <div class="footer-bottom">
+      <p class="busuanzi-stats">
+        <span id="busuanzi_container_site_pv">
+          总访问量 <span id="busuanzi_value_site_pv">--</span> 次
+        </span>
+        <span class="stats-divider">·</span>
+        <span id="busuanzi_container_site_uv">
+          访客数 <span id="busuanzi_value_site_uv">--</span> 人
+        </span>
+      </p>
       <p>© {new Date().getFullYear()} {SITE_AUTHOR} · 使用 Astro 构建</p>
     </div>
   </div>
 </footer>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <style>
   .site-footer {
@@ -69,6 +80,17 @@ import { SITE_AUTHOR, SITE_TITLE } from '../consts';
     color: var(--color-text-muted);
     border-top: 1px solid var(--color-border-light);
     padding-top: 1.5rem;
+  }
+
+  .busuanzi-stats {
+    margin-bottom: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .stats-divider {
+    margin: 0 0.6rem;
+    opacity: 0.6;
   }
 
   @media (max-width: 768px) {

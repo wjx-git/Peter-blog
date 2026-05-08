@@ -37,6 +37,9 @@ function formatDate(date: Date) {
               <span class="updated">更新于 <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time></span>
             )}
             <span class="reading-time" id="reading-time"></span>
+            <span id="busuanzi_container_page_pv" class="page-views">
+              阅读 <span id="busuanzi_value_page_pv">--</span>
+            </span>
           </div>
           {tags.length > 0 && (
             <div class="post-tags">
