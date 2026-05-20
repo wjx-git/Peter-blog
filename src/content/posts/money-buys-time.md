@@ -1,7 +1,7 @@
 ---
 title: 钱能买时间
 description: 金钱的本质是时间的杠杆——穷人用时间换钱，富人用钱换时间，而时间差异最终转化为阶层差异。
-date: 2026-05-20
+pubDate: 2026-05-20
 category: 随笔
 heroImage: "/Peter-blog/images/money-buys-time.png"
 ---
