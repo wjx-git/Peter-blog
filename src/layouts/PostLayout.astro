@@ -63,6 +63,14 @@ function formatDate(date: Date) {
           <slot />
         </div>
 
+        <div class="wechat-promo">
+          <img src="/Peter-blog/images/wechat-qr.jpg" alt="公众号二维码" class="wechat-qr" loading="lazy" />
+          <div class="wechat-promo-text">
+            <p class="wechat-promo-title">喜欢这篇文章？</p>
+            <p class="wechat-promo-desc">扫码关注我的公众号，第一时间获取新文章更新。</p>
+          </div>
+        </div>
+
         <footer class="post-footer">
           <div class="post-tags-bottom">
             {tags.map(tag => (
@@ -176,6 +184,45 @@ function formatDate(date: Date) {
 
   .post-content {
     padding: 2rem 0;
+  }
+
+  .wechat-promo {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 1rem 0 2rem;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    background-color: var(--color-border-light);
+  }
+
+  .wechat-qr {
+    width: 120px;
+    height: 120px;
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+  }
+
+  .wechat-promo-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+
+  .wechat-promo-desc {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 480px) {
+    .wechat-promo {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+    }
   }
 
   .post-footer {
