@@ -12,6 +12,8 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
     "@fontsource/noto-serif-sc": "^5.2.9",
     "astro": "^6.1.10",
     "fuse.js": "^7.3.0"

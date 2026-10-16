@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wjx-git.github.io/Peter-blog/sitemap-index.xml
